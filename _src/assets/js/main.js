@@ -1,3 +1,4 @@
 'use strict';
 
-console.log('>> Ready :)');
+import './edit.js';
+import './menu.js';
