@@ -3,7 +3,6 @@ import { createHtmlList, paintList } from './list.js';
 import { createHtmlCard } from './card.js';
 import { paintCard } from './card.js';
 
-
 let info = {};
 let infoArray = new Array();
 
