@@ -1,5 +1,7 @@
 'user strict';
 
+
+
 import { infoArray } from './api.js';
 
 let infoCards = [];
