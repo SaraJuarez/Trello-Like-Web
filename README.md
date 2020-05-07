@@ -1,1 +1,1 @@
-# Ejercicio global: Gestor de proyectos
+# List-making application
