@@ -1,10 +1,8 @@
 'use strict';
-import { createHtmlList, paintList } from './list.js';
-import { createHtmlCard } from './card.js';
-import { paintCard } from './card.js';
 
 let info = {};
 let infoArray = new Array();
+import { createList } from './main.js';
 
 function getDataFromApi() {
     fetch('../../api/board.json')
@@ -16,14 +14,11 @@ function getDataFromApi() {
                 const info = data.board.list[i];
                 infoArray.push(info)
             }
-            createHtmlList();
-            createHtmlCard();
-            paintList();
-            paintCard();
-
+            createList();
         })
 }
 
 getDataFromApi();
 
 export { infoArray };
+
