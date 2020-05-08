@@ -111,6 +111,8 @@ function createHtml() {
 
             console.log(cards)
 
+            // card title
+
             let divCardTitle = document.createElement('div')
             let titleCard = document.createElement('h3');
             titleCard.setAttribute('class', 'h6')
@@ -120,15 +122,64 @@ function createHtml() {
             divCardTitle.appendChild(titleCard)
             cardArticle.appendChild(divCardTitle)
 
+            // card summary
+
+            let cardSummary = document.createElement('div');
+            cardSummary.setAttribute('class', 'text-black-50');
+            let small1 = document.createElement('small');
+            small1.setAttribute('class', 'pr-2 fas fa-align-left');
+            let small2 = document.createElement('small');
+            small2.setAttribute('class', 'far fa-check-square');
+            let small3 = document.createElement('small');
+            small3.setAttribute('title', 'Subtareas completadas: 3 de 5');
+            let textFinishedTasks = document.createTextNode('Subtareas completadas: 3 de 5')
+            small3.appendChild(textFinishedTasks)
+            cardSummary.appendChild(small1)
+            cardSummary.appendChild(small2);
+            cardSummary.appendChild(small3)
+            cardArticle.appendChild(cardSummary)
+
+            // flechas para mover arriba y abajo
+
+            let divArrows = document.createElement('div');
+            divArrows.setAttribute('class', 'app-card-btns btn-group-vertical btn-group-sm');
+            let buttonUp = document.createElement('button');
+            Object.assign(buttonUp, {
+                type: 'button',
+                class: 'btn btn-light text-muted border shadow-sm app-card-move-up', title: 'Mover esta tarjeta hacia abajo'
+            })
+            let spanButtonUp = document.createElement('span');
+            spanButtonUp.setAttribute('class', 'fas fa-arrow-up');
+            buttonUp.appendChild(spanButtonUp)
+
+            let buttonDown = document.createElement('button');
+            Object.assign(buttonDown, {
+                type: 'button',
+                class: 'btn btn-light text-muted border shadow-sm app-card-move-down',
+                title: 'Mover esta tarjeta hacia arriba'
+            })
+            let spanButtonDown = document.createElement('span');
+            spanButtonDown.setAttribute('class', 'fas fa-arrow-down');
+            buttonDown.appendChild(spanButtonDown)
+            divArrows.appendChild(buttonUp);
+            divArrows.appendChild(buttonDown);
+            cardArticle.appendChild(divArrows)
         }
-
-
-
-
+        // list footer
+        let listFooterButton = document.createElement('button');
+        Object.assign(listFooterButton, {
+            type: 'button',
+            class: 'ml-1 btn btn-primary btn-sm text-white-50',
+            title: 'Añadir una nueva tarjeta'
+        })
+        let footerButtonSpan = document.createElement('span');
+        footerButtonSpan.setAttribute('class', 'fas fa-plus');
+        let textSpanFooter = document.createTextNode('Añadir otra tarjeta');
+        footerButtonSpan.appendChild(textSpanFooter);
+        listFooterButton.appendChild(footerButtonSpan);
+        divListCard.appendChild(listFooterButton)
     }
-
-
-
+    // añadir nueva columna
 }
 
 export { createHtml };
