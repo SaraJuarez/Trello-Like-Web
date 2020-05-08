@@ -2,7 +2,7 @@
 
 let info = {};
 let infoArray = new Array();
-import { createList } from './main.js';
+import { createHtml } from './main.js';
 
 function getDataFromApi() {
     fetch('../../api/board.json')
@@ -14,7 +14,7 @@ function getDataFromApi() {
                 const info = data.board.list[i];
                 infoArray.push(info)
             }
-            createList();
+            createHtml();
         })
 }
 
