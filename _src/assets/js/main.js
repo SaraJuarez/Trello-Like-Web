@@ -2,12 +2,15 @@
 import './api.js';
 import './edit.js';
 import './menu.js';
-
 import { infoArray } from './api.js';
+import { createEvents } from './edit.js';
+import { getListName } from './inputName.js';
+import { deleteList } from './deleteList.js';
+import { moveList } from './moveList.js';
+
 const mainContainer = document.querySelector('.app-board');
 
 function createHtml() {
-    console.log(infoArray)
     mainContainer.innerHTML = '';
 
     for (let index = 0; index < infoArray.length; index++) {
@@ -27,6 +30,9 @@ function createHtml() {
 
         let formListHeader = document.createElement('form');
         formListHeader.setAttribute('class', 'app-list-form align-middle p-1 position-relative');
+        Object.assign(formListHeader, {
+            id: [index]
+        })
         divListCard.appendChild(formListHeader);
         let inputListHeader = document.createElement('input');
         Object.assign(inputListHeader, {
@@ -37,6 +43,9 @@ function createHtml() {
             title: 'Editar el título de la lista',
             id: index,
         })
+        // evento recoger nombre
+        inputListHeader.addEventListener('keyup', getListName)
+
         formListHeader.appendChild(inputListHeader)
         let listOptions = document.createElement('div');
         listOptions.setAttribute('class', 'app-list-options');
@@ -54,8 +63,13 @@ function createHtml() {
         Object.assign(eraseButton, {
             type: 'button',
             class: 'btn btn-light text-muted border shadow-sm',
-            title: 'Borrar esta tarjeta'
+            title: 'Borrar esta tarjeta',
+            id: [index]
         });
+
+        // evento borrar lista
+        eraseButton.addEventListener('click', deleteList);
+
         divListButtons.appendChild(eraseButton)
         let spanEraseButton = document.createElement('span');
         spanEraseButton.setAttribute('class', 'fas fa-trash-alt');
@@ -64,9 +78,9 @@ function createHtml() {
         // botón izquierda
 
         let leftArrow = document.createElement('button');
+        leftArrow.setAttribute('class', 'btn btn-light text-muted border shadow-sm app-list-move-left')
         Object.assign(leftArrow, {
             type: 'button',
-            class: 'btn btn-light text-muted border shadow-sm app-list-move-left',
             title: 'Mover esta lista hacia la izquierda'
         })
         divListButtons.appendChild(leftArrow);
@@ -77,15 +91,19 @@ function createHtml() {
         // botón derecha
 
         let rightArrow = document.createElement('button');
+        rightArrow.setAttribute('class', 'btn btn-light text-muted border shadow-sm app-list-move-right')
         Object.assign(rightArrow, {
             type: 'button',
-            class: 'btn btn-light text-muted border shadow-sm app-list-move-right',
             title: 'Mover esta lista hacia la derecha'
         })
         divListButtons.appendChild(rightArrow);
         let rightArrowSpan = document.createElement('span');
         rightArrowSpan.setAttribute('class', 'fas fa-arrow-right')
         rightArrow.appendChild(rightArrowSpan);
+
+        // evento para botones de mover
+        leftArrow.addEventListener('click', moveList)
+        rightArrow.addEventListener('click', moveList)
 
         // card
 
@@ -108,8 +126,6 @@ function createHtml() {
                 divTagsContainer.appendChild(tagElement)
 
             }
-
-            console.log(cards)
 
             // card title
 
@@ -179,7 +195,23 @@ function createHtml() {
         listFooterButton.appendChild(footerButtonSpan);
         divListCard.appendChild(listFooterButton)
     }
-    // añadir nueva columna
+    createButtonNewColumn();
+    createEvents();
+}
+// añadir nueva columna
+
+function createButtonNewColumn() {
+    let divNewColumn = document.createElement('div');
+    let buttonNewColumn = document.createElement('button');
+    buttonNewColumn.setAttribute('class', 'new-list-btn btn btn-light btn-outline-primary btn-sm mr-5 shadow-sm');
+    buttonNewColumn.setAttribute('type', 'button');
+    buttonNewColumn.setAttribute('title', 'Añadir nueva lista')
+    let spanNewColumn = document.createElement('span');
+    spanNewColumn.setAttribute('class', 'fas fa-plus');
+    buttonNewColumn.appendChild(spanNewColumn);
+    divNewColumn.appendChild(buttonNewColumn);
+    mainContainer.appendChild(divNewColumn);
 }
 
 export { createHtml };
+export { createButtonNewColumn };

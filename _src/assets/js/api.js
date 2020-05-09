@@ -3,6 +3,10 @@
 let info = {};
 let infoArray = new Array();
 import { createHtml } from './main.js';
+import { createEvents } from './edit.js';
+import { createButtonNewColumn } from './main.js';
+
+
 
 function getDataFromApi() {
     fetch('../../api/board.json')
@@ -14,11 +18,13 @@ function getDataFromApi() {
                 const info = data.board.list[i];
                 infoArray.push(info)
             }
+            console.log(infoArray)
             createHtml();
+
         })
 }
 
 getDataFromApi();
 
-export { infoArray };
 
+export { infoArray };
