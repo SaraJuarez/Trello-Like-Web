@@ -1,6 +1,5 @@
 'use strict';
 import './api.js';
-import './edit.js';
 import './menu.js';
 import { infoArray } from './api.js';
 import { createEvents } from './edit.js';
@@ -31,12 +30,15 @@ function handleBoardEvents(ev) {
     }
     else if (eventAction === 'create-new-card') {
         state.createNewCard(infoArray, ev.currentTarget.id, ev.currentTarget);
+
     }
     else if (eventAction === 'move-card-up') {
-        state.moveCardUp();
+        state.moveCardUp(infoArray, ev.currentTarget);
+        ev.stopPropagation();
     }
     else if (eventAction === 'move-card-down') {
         state.moveCardDown();
+        ev.stopPropagation();
 
     }
     localStorage.setItem('lists', JSON.stringify(infoArray));
@@ -142,7 +144,7 @@ function createHtml() {
             let cards = infoArray[index].cards[i]
             let cardArticle = document.createElement('article');
             cardArticle.setAttribute('class', 'js-card app-card m-1 mb-2 p-2 bg-white rounded-sm app-cursor-pointer shadow-sm')
-            cardArticle.setAttribute('id', [i])
+            cardArticle.setAttribute('id', parseInt([i]))
             cardArticle.setAttribute('title', 'Abrir la tarjeta')
             divListCard.appendChild(cardArticle)
 

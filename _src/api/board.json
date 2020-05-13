@@ -5,7 +5,7 @@
         "title": "Backlog",
         "cards": [
           {
-            "id": "1",
+            "id": 1,
             "title": "Publicar en GitHub Pages",
             "description": "Lorem ipsum dolor sit amet",
             "tags": [
@@ -20,7 +20,7 @@
         "title": "Por hacer",
         "cards": [
           {
-            "id": "2",
+            "id": 1,
             "title": "Unificar funcionalidad",
             "description": "Lorem ipsum dolor sit amet",
             "tags": [
@@ -30,7 +30,7 @@
             ]
           },
           {
-            "id": "3",
+            "id": 2,
             "title": "Pintar el DOM",
             "description": "Lorem ipsum dolor sit amet",
             "tags": [
@@ -45,7 +45,7 @@
         "title": "Haciendo",
         "cards": [
           {
-            "id": "4",
+            "id": 1,
             "title": "Escuchar eventos",
             "description": "Lorem ipsum dolor sit amet",
             "tags": [
@@ -60,7 +60,7 @@
         "title": "Hecho",
         "cards": [
           {
-            "id": "5",
+            "id": 1,
             "title": "Manipular datos",
             "description": "Lorem ipsum dolor sit amet",
             "tags": [
@@ -70,7 +70,7 @@
             ]
           },
           {
-            "id": "6",
+            "id": 2,
             "title": "Guardar los datos en local storage",
             "description": "Lorem ipsum dolor sit amet",
             "tags": [
@@ -80,7 +80,7 @@
             ]
           },
           {
-            "id": "7",
+            "id": 3,
             "title": "Obtener datos del API",
             "description": "Lorem ipsum dolor sit amet",
             "tags": [

@@ -24,8 +24,9 @@ const moveListRight = (data, parentId) => {
 
 const createNewCard = (data, parentId, element) => {
     let previousCardId = element.previousSibling.id;
-    let numberIntoNumber = parseInt(previousCardId)
-    let newCardId = numberIntoNumber + 1;
+    let stringIntoNumber = parseInt(previousCardId)
+    let newCardId = stringIntoNumber + 1;
+
 
     let newCardObject = {
         "id": newCardId,
@@ -41,9 +42,25 @@ const createNewCard = (data, parentId, element) => {
 }
 
 
-const moveCardUp = () => {
-    console.log('mover tarjeta arriba')
+const moveCardUp = (data, element) => {
+    let parentDiv = element.parentNode;
+    let parentArticle = parentDiv.parentNode;
+    let cardId = parentArticle.id;
+    console.log(cardId)
+    let parentForm = parentArticle.previousSibling;
+    let listId = parentForm.id;
+    console.log(listId)
+
+
+    // let cardMoved = data[listId].cards.splice(cardId, 1);
+    // let positionToMove = cardId - 1;
+    // data.splice(positionToMove, 0, cardMoved[0]);
+
+
+
 }
+
+
 
 const moveCardDown = () => {
     console.log('mover tarjeta abajo')
