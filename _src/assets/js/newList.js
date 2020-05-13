@@ -1,9 +1,5 @@
 'user strict';
-
 import { infoArray } from './api.js';
-import { createHtml } from './main.js';
-
-
 function createNewList() {
     const newObjectList = {
         title: 'Título tarjeta',

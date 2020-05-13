@@ -4,11 +4,46 @@ import './edit.js';
 import './menu.js';
 import { infoArray } from './api.js';
 import { createEvents } from './edit.js';
-import { getListName } from './inputName.js';
-import { deleteList } from './deleteList.js';
-import { moveList } from './moveList.js';
+import state from './state.js';
 
 const mainContainer = document.querySelector('.app-board');
+console.log(infoArray)
+
+// función para manejar eventos columnas
+function handleBoardEvents(ev) {
+    const dataset = ev.currentTarget;
+    console.log(dataset)
+    const eventAction = dataset.getAttribute('action')
+    const datasetId = dataset.getAttribute('id')
+    if (eventAction === 'set-list-title') {
+
+        state.handleListName(infoArray, datasetId, ev.currentTarget.value)
+    }
+    else if (eventAction === 'erase-list-button') {
+        state.deleteListButton(infoArray, datasetId)
+
+    }
+    else if (eventAction === 'move-list-left') {
+        state.moveListLeft(infoArray, ev.currentTarget.form.id)
+    }
+    else if (eventAction === 'move-list-right') {
+        state.moveListRight(infoArray, ev.currentTarget.form.id)
+    }
+    else if (eventAction === 'create-new-card') {
+        state.createNewCard(infoArray, ev.currentTarget.id, ev.currentTarget);
+    }
+    else if (eventAction === 'move-card-up') {
+        state.moveCardUp();
+    }
+    else if (eventAction === 'move-card-down') {
+        state.moveCardDown();
+
+    }
+    localStorage.setItem('lists', JSON.stringify(infoArray));
+    createHtml();
+
+}
+
 
 function createHtml() {
     mainContainer.innerHTML = '';
@@ -43,8 +78,7 @@ function createHtml() {
             title: 'Editar el título de la lista',
             id: index,
         })
-        // evento recoger nombre
-        inputListHeader.addEventListener('keyup', getListName)
+        inputListHeader.setAttribute('action', 'set-list-title')
 
         formListHeader.appendChild(inputListHeader)
         let listOptions = document.createElement('div');
@@ -62,13 +96,11 @@ function createHtml() {
         let eraseButton = document.createElement('button');
         Object.assign(eraseButton, {
             type: 'button',
-            class: 'btn btn-light text-muted border shadow-sm',
+            className: 'erase-list-btn btn btn-light text-muted border shadow-sm',
             title: 'Borrar esta tarjeta',
             id: [index]
         });
-
-        // evento borrar lista
-        eraseButton.addEventListener('click', deleteList);
+        eraseButton.setAttribute('action', 'erase-list-button')
 
         divListButtons.appendChild(eraseButton)
         let spanEraseButton = document.createElement('span');
@@ -83,6 +115,7 @@ function createHtml() {
             type: 'button',
             title: 'Mover esta lista hacia la izquierda'
         })
+        leftArrow.setAttribute('action', 'move-list-left')
         divListButtons.appendChild(leftArrow);
         let leftArrowSpan = document.createElement('span');
         leftArrowSpan.setAttribute('class', 'fas fa-arrow-left');
@@ -96,14 +129,11 @@ function createHtml() {
             type: 'button',
             title: 'Mover esta lista hacia la derecha'
         })
+        rightArrow.setAttribute('action', 'move-list-right')
         divListButtons.appendChild(rightArrow);
         let rightArrowSpan = document.createElement('span');
         rightArrowSpan.setAttribute('class', 'fas fa-arrow-right')
         rightArrow.appendChild(rightArrowSpan);
-
-        // evento para botones de mover
-        leftArrow.addEventListener('click', moveList)
-        rightArrow.addEventListener('click', moveList)
 
         // card
 
@@ -112,6 +142,7 @@ function createHtml() {
             let cards = infoArray[index].cards[i]
             let cardArticle = document.createElement('article');
             cardArticle.setAttribute('class', 'js-card app-card m-1 mb-2 p-2 bg-white rounded-sm app-cursor-pointer shadow-sm')
+            cardArticle.setAttribute('id', [i])
             cardArticle.setAttribute('title', 'Abrir la tarjeta')
             divListCard.appendChild(cardArticle)
 
@@ -162,8 +193,10 @@ function createHtml() {
             let buttonUp = document.createElement('button');
             Object.assign(buttonUp, {
                 type: 'button',
-                class: 'btn btn-light text-muted border shadow-sm app-card-move-up', title: 'Mover esta tarjeta hacia abajo'
+                title: 'Mover esta tarjeta hacia arriba'
             })
+            buttonUp.setAttribute('action', 'move-card-up')
+            buttonUp.setAttribute('class', 'btn btn-light text-muted border shadow-sm app-card-move-up')
             let spanButtonUp = document.createElement('span');
             spanButtonUp.setAttribute('class', 'fas fa-arrow-up');
             buttonUp.appendChild(spanButtonUp)
@@ -171,9 +204,10 @@ function createHtml() {
             let buttonDown = document.createElement('button');
             Object.assign(buttonDown, {
                 type: 'button',
-                class: 'btn btn-light text-muted border shadow-sm app-card-move-down',
-                title: 'Mover esta tarjeta hacia arriba'
+                className: 'btn btn-light text-muted border shadow-sm app-card-move-down',
+                title: 'Mover esta tarjeta hacia abajo'
             })
+            buttonDown.setAttribute('action', 'move-card-down')
             let spanButtonDown = document.createElement('span');
             spanButtonDown.setAttribute('class', 'fas fa-arrow-down');
             buttonDown.appendChild(spanButtonDown)
@@ -183,11 +217,11 @@ function createHtml() {
         }
         // list footer
         let listFooterButton = document.createElement('button');
-        Object.assign(listFooterButton, {
-            type: 'button',
-            class: 'ml-1 btn btn-primary btn-sm text-white-50',
-            title: 'Añadir una nueva tarjeta'
-        })
+        listFooterButton.setAttribute('type', 'button');
+        listFooterButton.setAttribute('class', 'ml-1 btn btn-primary btn-sm text-white-50 new-card-button');
+        listFooterButton.setAttribute('title', 'Añadir una nueva tarjeta');
+        listFooterButton.setAttribute('action', 'create-new-card')
+        listFooterButton.setAttribute('id', [index])
         let footerButtonSpan = document.createElement('span');
         footerButtonSpan.setAttribute('class', 'fas fa-plus');
         let textSpanFooter = document.createTextNode('Añadir otra tarjeta');
@@ -197,6 +231,14 @@ function createHtml() {
     }
     createButtonNewColumn();
     createEvents();
+    addEvents('.app-list-input', 'change', handleBoardEvents);
+    addEvents('.erase-list-btn', 'click', handleBoardEvents);
+    addEvents('.app-list-move-left', 'click', handleBoardEvents);
+    addEvents('.app-list-move-right', 'click', handleBoardEvents)
+    addEvents('.new-card-button', 'click', handleBoardEvents)
+    addEvents('.app-card-move-up', 'click', handleBoardEvents)
+    addEvents('.app-card-move-down', 'click', handleBoardEvents)
+
 }
 // añadir nueva columna
 
@@ -212,6 +254,16 @@ function createButtonNewColumn() {
     divNewColumn.appendChild(buttonNewColumn);
     mainContainer.appendChild(divNewColumn);
 }
+
+// función para añadir eventos
+function addEvents(selector, eventType, eventhandler) {
+    const elements = document.querySelectorAll(selector);
+    for (const element of elements) {
+        element.addEventListener(eventType, eventhandler)
+    }
+
+}
+
 
 export { createHtml };
 export { createButtonNewColumn };

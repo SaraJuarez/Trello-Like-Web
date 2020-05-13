@@ -24,6 +24,7 @@ function createEvents() {
 
   document.querySelector('.js-edit-modal').addEventListener('click', preventEditClosing)
 
+
   // evento para añadir nueva lista
   let newListButton = document.querySelector('.new-list-btn ');
   newListButton.addEventListener('click', createNewList)

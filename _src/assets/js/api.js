@@ -19,6 +19,11 @@ function getDataFromApi() {
                 infoArray.push(info)
             }
             console.log(infoArray)
+            if (localStorage.getItem('lists') != undefined) {
+                const localStorageData = localStorage.getItem('lists');
+                infoArray = JSON.parse(localStorageData)
+            }
+            localStorage.setItem('lists', JSON.stringify(infoArray));
             createHtml();
 
         })
