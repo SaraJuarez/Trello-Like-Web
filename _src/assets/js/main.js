@@ -1,21 +1,46 @@
 'use strict';
 import './api.js';
 import './menu.js';
-import { infoArray } from './api.js';
+import api from './api.js';
 import { createEvents } from './edit.js';
 import state from './state.js';
+import edit from './edit.js';
 
 const mainContainer = document.querySelector('.app-board');
-console.log(infoArray)
+
+let infoArray = [];
+
+let openCardId = '';
+
+const startApp = () => {
+    if (localStorage.getItem('lists') != undefined) {
+        let localStorageData = localStorage.getItem('lists');
+        infoArray = JSON.parse(localStorageData);
+        createHtml();
+    }
+    else {
+        api.getDataFromApi().then(data => {
+            for (let i = 0; i < data.board.list.length; i++) {
+                const info = data.board.list[i];
+                infoArray.push(info)
+
+            }
+            localStorage.setItem('lists', JSON.stringify(infoArray));
+            createHtml();
+        })
+
+    }
+}
+
+
+startApp();
 
 // función para manejar eventos columnas
 function handleBoardEvents(ev) {
     const dataset = ev.currentTarget;
-    console.log(dataset)
     const eventAction = dataset.getAttribute('action')
     const datasetId = dataset.getAttribute('id')
     if (eventAction === 'set-list-title') {
-
         state.handleListName(infoArray, datasetId, ev.currentTarget.value)
     }
     else if (eventAction === 'erase-list-button') {
@@ -37,12 +62,22 @@ function handleBoardEvents(ev) {
         ev.stopPropagation();
     }
     else if (eventAction === 'move-card-down') {
-        state.moveCardDown();
+        state.moveCardDown(infoArray, ev.currentTarget);
         ev.stopPropagation();
 
     }
     localStorage.setItem('lists', JSON.stringify(infoArray));
     createHtml();
+}
+
+// función de evento abrir tarjeta
+
+function openCard(ev) {
+    openCardId = ev.currentTarget.id;
+    let openCardParent = ev.currentTarget.parentNode;
+    let openCardList = openCardParent.parentNode;
+    let openCardListId = openCardList.id;
+    edit.open(openCardId, openCardListId);
 
 }
 
@@ -78,7 +113,7 @@ function createHtml() {
             type: 'text',
             value: infoArray[index].title,
             title: 'Editar el título de la lista',
-            id: index,
+            id: `input-list-${index}`
         })
         inputListHeader.setAttribute('action', 'set-list-title')
 
@@ -143,7 +178,7 @@ function createHtml() {
 
             let cards = infoArray[index].cards[i]
             let cardArticle = document.createElement('article');
-            cardArticle.setAttribute('class', 'js-card app-card m-1 mb-2 p-2 bg-white rounded-sm app-cursor-pointer shadow-sm')
+            cardArticle.setAttribute('class', 'js-card js-open-card app-card m-1 mb-2 p-2 bg-white rounded-sm app-cursor-pointer shadow-sm')
             cardArticle.setAttribute('id', parseInt([i]))
             cardArticle.setAttribute('title', 'Abrir la tarjeta')
             divListCard.appendChild(cardArticle)
@@ -240,6 +275,7 @@ function createHtml() {
     addEvents('.new-card-button', 'click', handleBoardEvents)
     addEvents('.app-card-move-up', 'click', handleBoardEvents)
     addEvents('.app-card-move-down', 'click', handleBoardEvents)
+    addEvents('.js-open-card', 'click', openCard);
 
 }
 // añadir nueva columna
@@ -265,7 +301,6 @@ function addEvents(selector, eventType, eventhandler) {
     }
 
 }
-
 
 export { createHtml };
 export { createButtonNewColumn };

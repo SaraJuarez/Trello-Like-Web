@@ -2,7 +2,23 @@
 
 // edit
 
-import { createNewList } from './newList.js';
+// import { createNewList } from './newList.js';
+
+// abrir tarjeta en la modal
+
+const open = (card, list) => {
+  console.log('abriendo tarjeta')
+}
+
+
+
+
+
+
+
+
+
+
 // mostrar u ocultar la modal
 
 const toggleEdit = ev => {
@@ -25,10 +41,13 @@ function createEvents() {
   document.querySelector('.js-edit-modal').addEventListener('click', preventEditClosing)
 
 
-  // evento para añadir nueva lista
-  let newListButton = document.querySelector('.new-list-btn ');
-  newListButton.addEventListener('click', createNewList)
+  // // evento para añadir nueva lista
+  // let newListButton = document.querySelector('.new-list-btn ');
+  // newListButton.addEventListener('click', createNewList)
 }
 
 export { createEvents };
+export default {
+  open
+};
 
