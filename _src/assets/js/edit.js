@@ -4,13 +4,47 @@
 
 // import { createNewList } from './newList.js';
 
+const modalElement = document.querySelector('.js-edit');
+
 // abrir tarjeta en la modal
 
-const open = (card, list) => {
-  console.log('abriendo tarjeta')
+const open = (data, cardIndex, listId) => {
+  let list = data[listId]
+  let card = list.cards[cardIndex]
+
+  let cardTitle = document.querySelector('.app-edit-title');
+  cardTitle.value = card.title;
+  let cardDescription = document.querySelector('.app-edit-textarea');
+  cardDescription.innerHTML = card.description;
+  let tags = card.tags;
+  renderTags(tags);
+  let cardListTitle = document.querySelector('.js-edit-list-title');
+  cardListTitle.innerHTML = list.title;
 }
 
+const deleteCard = (data, cardIndex, listId) => {
+  console.log(data)
+  console.log(cardIndex)
+  console.log(listId)
+  // data[listId]
+  // const deleteList = data.splice(listId, 1);
+  let deleteCard = data[listId].cards.splice(cardIndex, 1);
+}
 
+const close = (ev) => {
+
+}
+
+const renderTags = tags => {
+  let tagsContainer = document.querySelector('.js-edit-tags')
+  tagsContainer.innerHTML = '';
+  for (let index = 0; index < tags.length; index++) {
+    let tagElement = document.createElement('span');
+    tagElement.setAttribute('class', 'badge badge-secondary bg-success')
+    tagElement.innerHTML = tags[index];
+    tagsContainer.appendChild(tagElement)
+  }
+}
 
 
 
@@ -48,6 +82,7 @@ function createEvents() {
 
 export { createEvents };
 export default {
-  open
+  open,
+  deleteCard
 };
 

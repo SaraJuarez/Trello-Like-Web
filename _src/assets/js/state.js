@@ -23,51 +23,61 @@ const moveListRight = (data, parentId) => {
 }
 
 const createNewCard = (data, parentId, element) => {
-    debugger;
-    let previousCardId = element.previousSibling.id;
-    let stringIntoNumber = parseInt(previousCardId)
-    let newCardId = stringIntoNumber + 1;
-
-
-    let newCardObject = {
-        "id": newCardId,
-        "title": "Título tarjeta",
-        "description": "Lorem ipsum dolor sit amet",
-        "tags": [
-            "JS",
-            "Css",
-            "Html"
-        ]
-    }
-    data[parentId].cards.push(newCardObject)
+    console.log('creando nueva tarjeta')
+    console.log(data)
+    data[parentId].cards.push({
+        id: getNewId(),
+        title: 'Nueva tarjeta',
+        description: '',
+        tags: []
+    })
 }
 
+const getNewId = () => {
+    return Date.now();
+}
 
 const moveCardUp = (data, element) => {
+    console.log('clickado')
+
     let parentDiv = element.parentNode;
     let parentArticle = parentDiv.parentNode;
     let cardId = parentArticle.id;
+    let cardIdNumber = parseInt(cardId)
     let columnParent = parentArticle.parentNode;
     let listParent = columnParent.parentNode;
     let listId = listParent.id
-    let cardMoved = data[listId].cards.splice(cardId, 1);
-    let positionToMove = cardId - 1;
-    let moveCard = data[listId].cards.splice(positionToMove, 0, cardMoved[0]);
+    let cardIndex = getCardIndex(data, listId, cardIdNumber)
+    let cardMoved = data[listId].cards.splice(cardIndex, 1);
+    data[listId].cards.splice(cardIndex - 1, 0, cardMoved[0])
+
 }
-
-
 
 const moveCardDown = (data, element) => {
+
     let parentDiv = element.parentNode;
     let parentArticle = parentDiv.parentNode;
     let cardId = parentArticle.id;
+    let cardIdNumber = parseInt(cardId)
     let columnParent = parentArticle.parentNode;
     let listParent = columnParent.parentNode;
     let listId = listParent.id
-    let cardMoved = data[listId].cards.splice(cardId, 1);
-    let positionToMove = cardId + 1;
-    let moveCard = data[listId].cards.splice(positionToMove, 0, cardMoved[0]);
+    let listIdNumber = parseInt(listId)
+    let cardIndex = getCardIndex(data, listIdNumber, cardIdNumber)
+    let cardMoved = data[listId].cards.splice(cardIndex, 1);
+    data[listId].cards.splice(cardIndex + 1, 0, cardMoved[0])
 }
+
+const getCardIndex = (data, listId, cardId) => {
+    for (let index = 0; index < data.length; index++) {
+        let list = data[listId];
+        let cardIndex = list.cards.findIndex(card => card.id === cardId);
+        if (cardIndex >= 0) {
+            return cardIndex;
+        }
+    }
+}
+
 
 export default {
     handleListName,
@@ -76,5 +86,6 @@ export default {
     moveListRight,
     createNewCard,
     moveCardUp,
-    moveCardDown
+    moveCardDown,
+    getCardIndex
 };

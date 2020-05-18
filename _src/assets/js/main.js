@@ -11,6 +11,7 @@ const mainContainer = document.querySelector('.app-board');
 let infoArray = [];
 
 let openCardId = '';
+let openCardListId = '';
 
 const startApp = () => {
     if (localStorage.getItem('lists') != undefined) {
@@ -73,12 +74,22 @@ function handleBoardEvents(ev) {
 // función de evento abrir tarjeta
 
 function openCard(ev) {
-    openCardId = ev.currentTarget.id;
+    openCardId = parseInt(ev.currentTarget.id);
+
     let openCardParent = ev.currentTarget.parentNode;
     let openCardList = openCardParent.parentNode;
-    let openCardListId = openCardList.id;
-    edit.open(openCardId, openCardListId);
+    openCardListId = parseInt(openCardList.id);
 
+    let cardIndex = state.getCardIndex(infoArray, openCardListId, openCardId)
+    edit.open(infoArray, cardIndex, openCardListId);
+
+}
+
+function handleDeleteCard() {
+    let cardIndex = state.getCardIndex(infoArray, openCardListId, openCardId)
+    edit.deleteCard(infoArray, cardIndex, openCardListId);
+    localStorage.setItem('lists', JSON.stringify(infoArray));
+    createHtml();
 }
 
 
@@ -179,7 +190,8 @@ function createHtml() {
             let cards = infoArray[index].cards[i]
             let cardArticle = document.createElement('article');
             cardArticle.setAttribute('class', 'js-card js-open-card app-card m-1 mb-2 p-2 bg-white rounded-sm app-cursor-pointer shadow-sm')
-            cardArticle.setAttribute('id', parseInt([i]))
+            // cardArticle.setAttribute('id', parseInt([i]))
+            cardArticle.setAttribute('id', infoArray[index].cards[i].id)
             cardArticle.setAttribute('title', 'Abrir la tarjeta')
             divListCard.appendChild(cardArticle)
 
@@ -276,6 +288,8 @@ function createHtml() {
     addEvents('.app-card-move-up', 'click', handleBoardEvents)
     addEvents('.app-card-move-down', 'click', handleBoardEvents)
     addEvents('.js-open-card', 'click', openCard);
+    addEvents('.js-edit-delete', 'click', handleDeleteCard);
+
 
 }
 // añadir nueva columna
