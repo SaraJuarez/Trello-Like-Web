@@ -185,21 +185,7 @@ function createHtmlFiltered(infoArray) {
         listFooterButton.appendChild(footerButtonSpan);
         divListCard.appendChild(listFooterButton)
     }
-    // createButtonNewColumn();
-    // createEvents();
-    // addEvents('.app-list-input', 'change', handleBoardEvents);
-    // addEvents('.erase-list-btn', 'click', handleBoardEvents);
-    // addEvents('.app-list-move-left', 'click', handleBoardEvents);
-    // addEvents('.app-list-move-right', 'click', handleBoardEvents)
-    // addEvents('.new-card-button', 'click', handleBoardEvents)
-    // addEvents('.app-card-move-up', 'click', handleBoardEvents)
-    // addEvents('.app-card-move-down', 'click', handleBoardEvents)
-    // addEvents('.js-open-card', 'click', openCard);
-    // addEvents('.js-edit-delete', 'click', handleDeleteCard);
-    // addEvents('.js-filter', 'keyup', handleFilter)
-    // addEvents('.js-submit', 'submit', preventSubmitForm)
 }
-
 export default {
     createHtmlFiltered,
 }

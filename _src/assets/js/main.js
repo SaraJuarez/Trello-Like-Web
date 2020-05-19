@@ -102,6 +102,7 @@ function handleDeleteCard() {
 function filterArray() {
     let filteredArrayData = state.filter(infoArray, filterText)
     filterMain.createHtmlFiltered(filteredArrayData)
+    addEventListeners();
 
 }
 
@@ -303,6 +304,11 @@ function createHtml() {
         listFooterButton.appendChild(footerButtonSpan);
         divListCard.appendChild(listFooterButton)
     }
+    addEventListeners();
+}
+
+
+function addEventListeners() {
     createButtonNewColumn();
     createEvents();
     addEvents('.app-list-input', 'change', handleBoardEvents);
@@ -316,8 +322,8 @@ function createHtml() {
     addEvents('.js-edit-delete', 'click', handleDeleteCard);
     addEvents('.js-filter', 'keyup', handleFilter)
     addEvents('.js-submit', 'submit', preventSubmitForm)
-}
 
+}
 
 // añadir nueva columna
 
@@ -343,10 +349,6 @@ function addEvents(selector, eventType, eventhandler) {
 
 }
 
-// export default {
-//     addEvents,
-//     createButtonNewColumn
-// }
 
 export { createHtml };
 export { createButtonNewColumn };
