@@ -1,124 +1,6 @@
-'use strict';
-import './api.js';
-import './menu.js';
-import api from './api.js';
-import { createEvents } from './edit.js';
-import state from './state.js';
-import edit from './edit.js';
-import filterMain from './filterMain.js';
-
 const mainContainer = document.querySelector('.app-board');
 
-let infoArray = [];
-
-let openCardId = '';
-let openCardListId = '';
-let filterText = '';
-
-
-const startApp = () => {
-    if (localStorage.getItem('lists') != undefined) {
-        let localStorageData = localStorage.getItem('lists');
-        infoArray = JSON.parse(localStorageData);
-        createHtml();
-    }
-    else {
-        api.getDataFromApi().then(data => {
-            for (let i = 0; i < data.board.list.length; i++) {
-                const info = data.board.list[i];
-                infoArray.push(info)
-
-            }
-            localStorage.setItem('lists', JSON.stringify(infoArray));
-            createHtml();
-        })
-
-    }
-}
-
-
-startApp();
-
-// función para manejar eventos columnas
-function handleBoardEvents(ev) {
-    const dataset = ev.currentTarget;
-    const eventAction = dataset.getAttribute('action')
-    const datasetId = dataset.getAttribute('id')
-    if (eventAction === 'set-list-title') {
-        state.handleListName(infoArray, datasetId, ev.currentTarget.value)
-    }
-    else if (eventAction === 'erase-list-button') {
-        state.deleteListButton(infoArray, datasetId)
-
-    }
-    else if (eventAction === 'move-list-left') {
-        state.moveListLeft(infoArray, ev.currentTarget.form.id)
-    }
-    else if (eventAction === 'move-list-right') {
-        state.moveListRight(infoArray, ev.currentTarget.form.id)
-    }
-    else if (eventAction === 'create-new-card') {
-        state.createNewCard(infoArray, ev.currentTarget.id, ev.currentTarget);
-
-    }
-    else if (eventAction === 'move-card-up') {
-        state.moveCardUp(infoArray, ev.currentTarget);
-        ev.stopPropagation();
-    }
-    else if (eventAction === 'move-card-down') {
-        state.moveCardDown(infoArray, ev.currentTarget);
-        ev.stopPropagation();
-
-    }
-    localStorage.setItem('lists', JSON.stringify(infoArray));
-    createHtml();
-}
-
-// función de evento abrir tarjeta
-
-function openCard(ev) {
-    openCardId = parseInt(ev.currentTarget.id);
-
-    let openCardParent = ev.currentTarget.parentNode;
-    let openCardList = openCardParent.parentNode;
-    openCardListId = parseInt(openCardList.id);
-
-    let cardIndex = state.getCardIndex(infoArray, openCardListId, openCardId)
-    edit.open(infoArray, cardIndex, openCardListId);
-
-}
-// función borrar tarjeta
-
-function handleDeleteCard() {
-    let cardIndex = state.getCardIndex(infoArray, openCardListId, openCardId)
-    edit.deleteCard(infoArray, cardIndex, openCardListId);
-    localStorage.setItem('lists', JSON.stringify(infoArray));
-    createHtml();
-}
-
-
-// funciones para filtrar tarjetas por búsqueda
-
-function filterArray() {
-    let filteredArrayData = state.filter(infoArray, filterText)
-    filterMain.createHtmlFiltered(filteredArrayData)
-
-}
-
-function handleFilter(ev) {
-    filterText = ev.currentTarget.value;
-    filterArray();
-}
-
-
-// Función para prevenir submit
-
-function preventSubmitForm(ev) {
-    ev.preventDefault();
-}
-
-
-function createHtml() {
+function createHtmlFiltered(infoArray) {
     mainContainer.innerHTML = '';
 
     for (let index = 0; index < infoArray.length; index++) {
@@ -303,50 +185,21 @@ function createHtml() {
         listFooterButton.appendChild(footerButtonSpan);
         divListCard.appendChild(listFooterButton)
     }
-    createButtonNewColumn();
-    createEvents();
-    addEvents('.app-list-input', 'change', handleBoardEvents);
-    addEvents('.erase-list-btn', 'click', handleBoardEvents);
-    addEvents('.app-list-move-left', 'click', handleBoardEvents);
-    addEvents('.app-list-move-right', 'click', handleBoardEvents)
-    addEvents('.new-card-button', 'click', handleBoardEvents)
-    addEvents('.app-card-move-up', 'click', handleBoardEvents)
-    addEvents('.app-card-move-down', 'click', handleBoardEvents)
-    addEvents('.js-open-card', 'click', openCard);
-    addEvents('.js-edit-delete', 'click', handleDeleteCard);
-    addEvents('.js-filter', 'keyup', handleFilter)
-    addEvents('.js-submit', 'submit', preventSubmitForm)
+    // createButtonNewColumn();
+    // createEvents();
+    // addEvents('.app-list-input', 'change', handleBoardEvents);
+    // addEvents('.erase-list-btn', 'click', handleBoardEvents);
+    // addEvents('.app-list-move-left', 'click', handleBoardEvents);
+    // addEvents('.app-list-move-right', 'click', handleBoardEvents)
+    // addEvents('.new-card-button', 'click', handleBoardEvents)
+    // addEvents('.app-card-move-up', 'click', handleBoardEvents)
+    // addEvents('.app-card-move-down', 'click', handleBoardEvents)
+    // addEvents('.js-open-card', 'click', openCard);
+    // addEvents('.js-edit-delete', 'click', handleDeleteCard);
+    // addEvents('.js-filter', 'keyup', handleFilter)
+    // addEvents('.js-submit', 'submit', preventSubmitForm)
 }
 
-
-// añadir nueva columna
-
-function createButtonNewColumn() {
-    let divNewColumn = document.createElement('div');
-    let buttonNewColumn = document.createElement('button');
-    buttonNewColumn.setAttribute('class', 'new-list-btn btn btn-light btn-outline-primary btn-sm mr-5 shadow-sm');
-    buttonNewColumn.setAttribute('type', 'button');
-    buttonNewColumn.setAttribute('title', 'Añadir nueva lista')
-    let spanNewColumn = document.createElement('span');
-    spanNewColumn.setAttribute('class', 'fas fa-plus');
-    buttonNewColumn.appendChild(spanNewColumn);
-    divNewColumn.appendChild(buttonNewColumn);
-    mainContainer.appendChild(divNewColumn);
+export default {
+    createHtmlFiltered,
 }
-
-// función para añadir eventos
-function addEvents(selector, eventType, eventhandler) {
-    const elements = document.querySelectorAll(selector);
-    for (const element of elements) {
-        element.addEventListener(eventType, eventhandler)
-    }
-
-}
-
-// export default {
-//     addEvents,
-//     createButtonNewColumn
-// }
-
-export { createHtml };
-export { createButtonNewColumn };

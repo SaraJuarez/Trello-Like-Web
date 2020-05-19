@@ -1,5 +1,16 @@
 'user strict';
 
+const filter = (data, filterText) => {
+    filterText = filterText.toLowerCase();
+    return data.map(list => {
+        const newList = { ...list };
+        newList.cards = newList.cards.filter(
+            card => card.title.toLowerCase().includes(filterText) === true
+        );
+        return newList;
+    });
+};
+
 const handleListName = (data, listId, text) => {
     data[listId].title = text;
 
@@ -87,5 +98,6 @@ export default {
     createNewCard,
     moveCardUp,
     moveCardDown,
-    getCardIndex
+    getCardIndex,
+    filter
 };

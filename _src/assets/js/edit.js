@@ -23,12 +23,8 @@ const open = (data, cardIndex, listId) => {
 }
 
 const deleteCard = (data, cardIndex, listId) => {
-  console.log(data)
-  console.log(cardIndex)
-  console.log(listId)
-  // data[listId]
-  // const deleteList = data.splice(listId, 1);
   let deleteCard = data[listId].cards.splice(cardIndex, 1);
+  document.querySelector('.js-edit').classList.toggle('show');
 }
 
 const close = (ev) => {
