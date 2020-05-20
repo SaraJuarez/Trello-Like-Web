@@ -2,11 +2,70 @@
   "board": {
     "list": [
       {
-        "title": "Por hacer",
+        "title": "Backlog",
+        "id": 1,
         "cards": [
           {
-            "id": "sdf0s98234n3ki",
+            "id": 1,
+            "title": "Publicar en GitHub Pages",
+            "description": "Lorem ipsum dolor sit amet",
+            "tags": [
+              "JS",
+              "Css",
+              "Html"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Por hacer",
+        "id": 2,
+        "cards": [
+          {
+            "id": 1,
             "title": "Unificar funcionalidad",
+            "description": "Descripción primera tarjeta de lista 2",
+            "tags": [
+              "JS",
+              "Css",
+              "Html"
+            ]
+          },
+          {
+            "id": 2,
+            "title": "Pintar el DOM",
+            "description": "Lorem ipsum dolor sit amet",
+            "tags": [
+              "JS",
+              "Css",
+              "Html"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Haciendo",
+        "id": 3,
+        "cards": [
+          {
+            "id": 1,
+            "title": "Escuchar eventos",
+            "description": "Lorem ipsum dolor sit amet",
+            "tags": [
+              "JS",
+              "Css",
+              "Html"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Hecho",
+        "id": 4,
+        "cards": [
+          {
+            "id": 1,
+            "title": "Manipular datos",
             "description": "Lorem ipsum dolor sit amet",
             "tags": [
               "JS",
@@ -15,8 +74,18 @@
             ]
           },
           {
-            "id": "9f8734ksd",
-            "title": "Pintar el DOM",
+            "id": 2,
+            "title": "Guardar los datos en local storage",
+            "description": "Lorem ipsum dolor sit amet",
+            "tags": [
+              "JS",
+              "Css",
+              "Html"
+            ]
+          },
+          {
+            "id": 3,
+            "title": "Obtener datos del API",
             "description": "Lorem ipsum dolor sit amet",
             "tags": [
               "JS",
