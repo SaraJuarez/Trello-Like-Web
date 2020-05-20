@@ -6,15 +6,16 @@ import { createEvents } from './edit.js';
 import state from './state.js';
 import edit from './edit.js';
 import filterMain from './filterMain.js';
+import menu from './menu.js';
 
 const mainContainer = document.querySelector('.app-board');
+
 
 let infoArray = [];
 
 let openCardId = '';
 let openCardListId = '';
 let filterText = '';
-
 
 const startApp = () => {
     if (localStorage.getItem('lists') != undefined) {
@@ -118,6 +119,11 @@ function preventSubmitForm(ev) {
     ev.preventDefault();
 }
 
+// función para abrir menu
+
+function handleOpenMenu() {
+    menu.createMenu(infoArray);
+}
 
 function createHtml() {
     mainContainer.innerHTML = '';
@@ -322,6 +328,7 @@ function addEventListeners() {
     addEvents('.js-edit-delete', 'click', handleDeleteCard);
     addEvents('.js-filter', 'keyup', handleFilter)
     addEvents('.js-submit', 'submit', preventSubmitForm)
+    addEvents('.js-menu-btn', 'click', handleOpenMenu)
 
 }
 
