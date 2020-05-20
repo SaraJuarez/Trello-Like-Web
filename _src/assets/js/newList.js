@@ -3,10 +3,10 @@
 const createNewList = (data) => {
     const newObjectList = {
         title: 'Título tarjeta',
-        id: getNewId(),
+        id: getNewListId(),
         cards: [
             {
-                id: getNewId(),
+                id: getNewListId(),
                 title: 'Título de la tarea',
                 description: 'Lorem ipsum dolor sit amet',
                 tags: [
@@ -18,7 +18,7 @@ const createNewList = (data) => {
     };
     data.push(newObjectList);
 }
-const getNewId = () => {
+const getNewListId = () => {
     return Date.now();
 }
 

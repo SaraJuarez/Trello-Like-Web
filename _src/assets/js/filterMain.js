@@ -1,14 +1,14 @@
-const mainContainer = document.querySelector('.app-board');
+const mainFileContainer = document.querySelector('.app-board');
 
 function createHtmlFiltered(infoArray) {
-    mainContainer.innerHTML = '';
+    mainFileContainer.innerHTML = '';
 
     for (let index = 0; index < infoArray.length; index++) {
         // div para columna
         let divColumnList = document.createElement('div');
         divColumnList.setAttribute('class', 'app-list')
         divColumnList.setAttribute('id', index)
-        mainContainer.appendChild(divColumnList)
+        mainFileContainer.appendChild(divColumnList)
 
         // div para list-header, card y list-footer
 
