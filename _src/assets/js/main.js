@@ -7,6 +7,7 @@ import state from './state.js';
 import edit from './edit.js';
 import filterMain from './filterMain.js';
 import menu from './menu.js';
+import newList from './newList.js';
 
 const mainContainer = document.querySelector('.app-board');
 
@@ -79,15 +80,15 @@ function handleBoardEvents(ev) {
 
 function openCard(ev) {
     openCardId = parseInt(ev.currentTarget.id);
-
     let openCardParent = ev.currentTarget.parentNode;
     let openCardList = openCardParent.parentNode;
     openCardListId = parseInt(openCardList.id);
-
-    let cardIndex = state.getCardIndex(infoArray, openCardListId, openCardId)
-    edit.open(infoArray, cardIndex, openCardListId);
-
+    let listIndex = state.getListIndex(infoArray, openCardListId)
+    let cardIndex = state.getCardIndex(infoArray, listIndex, openCardId)
+    edit.open(infoArray, cardIndex, listIndex);
 }
+
+
 // función borrar tarjeta
 
 function handleDeleteCard() {
@@ -97,6 +98,31 @@ function handleDeleteCard() {
     createHtml();
 }
 
+// función para cambiar nombre a tarjeta
+
+function handleCardName(ev) {
+    let text = ev.currentTarget.value;
+    state.changeCardName(infoArray, openCardListId, openCardId, text)
+    localStorage.setItem('lists', JSON.stringify(infoArray));
+    // createHtml();
+}
+
+// función para cambiar descripción a tarjeta
+function handleCardDescription(ev) {
+    let text = ev.currentTarget.value;
+    state.changeCardDescription(infoArray, openCardListId, openCardId, text)
+    localStorage.setItem('lists', JSON.stringify(infoArray));
+    // createHtml();
+
+}
+
+// funcion para borrar registro de tarjeta modal abierta
+
+function close() {
+    let openCardId = '';
+    let openCardListId = '';
+    createHtml();
+}
 
 // funciones para filtrar tarjetas por búsqueda
 
@@ -112,7 +138,6 @@ function handleFilter(ev) {
     filterArray();
 }
 
-
 // Función para prevenir submit
 
 function preventSubmitForm(ev) {
@@ -125,6 +150,14 @@ function handleOpenMenu() {
     menu.createMenu(infoArray);
 }
 
+// función para crear nueva lista
+
+function handleNewList() {
+    newList.createNewList(infoArray);
+    localStorage.setItem('lists', JSON.stringify(infoArray));
+    createHtml();
+}
+
 function createHtml() {
     mainContainer.innerHTML = '';
 
@@ -132,7 +165,7 @@ function createHtml() {
         // div para columna
         let divColumnList = document.createElement('div');
         divColumnList.setAttribute('class', 'app-list')
-        divColumnList.setAttribute('id', index)
+        divColumnList.setAttribute('id', infoArray[index].id)
         mainContainer.appendChild(divColumnList)
 
         // div para list-header, card y list-footer
@@ -156,7 +189,7 @@ function createHtml() {
             type: 'text',
             value: infoArray[index].title,
             title: 'Editar el título de la lista',
-            id: `input-list-${index}`
+            id: infoArray[index].id
         })
         inputListHeader.setAttribute('action', 'set-list-title')
 
@@ -329,7 +362,10 @@ function addEventListeners() {
     addEvents('.js-filter', 'keyup', handleFilter)
     addEvents('.js-submit', 'submit', preventSubmitForm)
     addEvents('.js-menu-btn', 'click', handleOpenMenu)
-
+    addEvents('.new-list-btn', 'click', handleNewList)
+    addEvents('.app-edit-title', 'change', handleCardName)
+    addEvents('.app-edit-textarea', 'change', handleCardDescription)
+    addEvents('.js-edit-close', 'click', close)
 }
 
 // añadir nueva columna

@@ -2,20 +2,18 @@
 
 // edit
 
-// import { createNewList } from './newList.js';
-
 const modalElement = document.querySelector('.js-edit');
 
 // abrir tarjeta en la modal
 
-const open = (data, cardIndex, listId) => {
-  let list = data[listId]
+const open = (data, cardIndex, listIndex) => {
+  let list = data[listIndex]
   let card = list.cards[cardIndex]
-
   let cardTitle = document.querySelector('.app-edit-title');
   cardTitle.value = card.title;
   let cardDescription = document.querySelector('.app-edit-textarea');
-  cardDescription.innerHTML = card.description;
+  cardDescription.value = '';
+  cardDescription.value = card.description;
   let tags = card.tags;
   renderTags(tags);
   let cardListTitle = document.querySelector('.js-edit-list-title');
@@ -27,9 +25,6 @@ const deleteCard = (data, cardIndex, listId) => {
   document.querySelector('.js-edit').classList.toggle('show');
 }
 
-const close = (ev) => {
-
-}
 
 const renderTags = tags => {
   let tagsContainer = document.querySelector('.js-edit-tags')
@@ -41,14 +36,6 @@ const renderTags = tags => {
     tagsContainer.appendChild(tagElement)
   }
 }
-
-
-
-
-
-
-
-
 // mostrar u ocultar la modal
 
 const toggleEdit = ev => {
@@ -56,6 +43,7 @@ const toggleEdit = ev => {
   document.querySelector('.js-edit').classList.toggle('show');
   document.querySelector('.js-edit').classList.remove('d-none');
 };
+
 
 const preventEditClosing = ev => {
   ev.stopPropagation();
@@ -69,11 +57,6 @@ function createEvents() {
   });
 
   document.querySelector('.js-edit-modal').addEventListener('click', preventEditClosing)
-
-
-  // // evento para añadir nueva lista
-  // let newListButton = document.querySelector('.new-list-btn ');
-  // newListButton.addEventListener('click', createNewList)
 }
 
 export { createEvents };

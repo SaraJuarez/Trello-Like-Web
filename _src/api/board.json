@@ -3,6 +3,7 @@
     "list": [
       {
         "title": "Backlog",
+        "id": 1,
         "cards": [
           {
             "id": 1,
@@ -18,11 +19,12 @@
       },
       {
         "title": "Por hacer",
+        "id": 2,
         "cards": [
           {
             "id": 1,
             "title": "Unificar funcionalidad",
-            "description": "Lorem ipsum dolor sit amet",
+            "description": "Descripción primera tarjeta de lista 2",
             "tags": [
               "JS",
               "Css",
@@ -43,6 +45,7 @@
       },
       {
         "title": "Haciendo",
+        "id": 3,
         "cards": [
           {
             "id": 1,
@@ -58,6 +61,7 @@
       },
       {
         "title": "Hecho",
+        "id": 4,
         "cards": [
           {
             "id": 1,
