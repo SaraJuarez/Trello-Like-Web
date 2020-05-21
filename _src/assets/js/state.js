@@ -41,8 +41,8 @@ const createNewCard = (data, parentId, element) => {
     data[listIndex].cards.push({
         id: getNewId(),
         title: 'Nueva tarjeta',
-        description: '',
-        tags: []
+        description: 'Ponga aquí la descripción de la tarea',
+        tags: ['JS']
     })
 
 }
