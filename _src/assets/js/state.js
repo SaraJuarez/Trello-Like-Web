@@ -35,13 +35,16 @@ const moveListRight = (data, parentId) => {
 }
 
 const createNewCard = (data, parentId, element) => {
-    let listIndex = getListIndex(data, parentId)
+    let parentIdNumber = parseInt(parentId)
+    let listIndex = getListIndex(data, parentIdNumber)
+    // debugger;
     data[listIndex].cards.push({
         id: getNewId(),
         title: 'Nueva tarjeta',
         description: '',
         tags: []
     })
+
 }
 
 const getNewId = () => {
@@ -99,6 +102,7 @@ const getCardIndex = (data, listIndex, cardId) => {
 }
 
 const getListIndex = (data, listId) => {
+
     for (let index = 0; index < data.length; index++) {
         let listIdNumber = parseInt(listId)
         let listIndex = data.findIndex(list => list.id === listIdNumber)

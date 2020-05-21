@@ -335,7 +335,7 @@ function createHtml() {
         listFooterButton.setAttribute('class', 'ml-1 btn btn-primary btn-sm text-white-50 new-card-button');
         listFooterButton.setAttribute('title', 'Añadir una nueva tarjeta');
         listFooterButton.setAttribute('action', 'create-new-card')
-        listFooterButton.setAttribute('id', [index])
+        listFooterButton.setAttribute('id', infoArray[index].id)
         let footerButtonSpan = document.createElement('span');
         footerButtonSpan.setAttribute('class', 'fas fa-plus');
         let textSpanFooter = document.createTextNode('Añadir otra tarjeta');
