@@ -24,14 +24,19 @@ function createMenu(data) {
   let tagsArrayHtml = [];
   for (let index = 0; index < data.length; index++) {
     for (let i = 0; i < data[index].cards.length; i++) {
-      if (data[index].cards[i].tags.includes('JS')) {
-        tagsArrayJs.push(data[index].cards[i].title)
-      }
-      else if (data[index].cards[i].tags.includes('Css')) {
-        tagsArrayCss.push(data[index].cards[i].title)
-      }
-      else if (data[index].cards[i].tags.includes('Html')) {
-        tagsArrayHtml.push(data[index].cards[i].title)
+      for (let z = 0; z < data[index].cards[i].tags.length; z++) {
+        if (data[index].cards[i].tags[z] === 'JS') {
+
+          (console.log(data[index].cards[i].tags))
+          tagsArrayJs.push(data[index].cards[i].title)
+        }
+        else if (data[index].cards[i].tags[z] === 'Css') {
+          tagsArrayCss.push(data[index].cards[i].title)
+        }
+        else if (data[index].cards[i].tags[z] === 'Html') {
+          tagsArrayHtml.push(data[index].cards[i].title)
+        }
+
       }
     }
   }
@@ -52,8 +57,8 @@ function createMenu(data) {
 
   // siempre uso el array de js porque todas las tareas comparten las mismas tags
   createTaskList('JS', tagsArrayJs);
-  createTaskList('Css', tagsArrayJs);
-  createTaskList('Html', tagsArrayJs)
+  createTaskList('Css', tagsArrayCss);
+  createTaskList('Html', tagsArrayHtml)
 
 }
 
